@@ -35,15 +35,6 @@ interface RepositoryInterface
     public function getCount();
 
     /**
-     * Returns an entity matching the supplied id.
-     *
-     * @param integer $id
-     *
-     * @return object|false An entity object if found, false otherwise.
-     */
-    public function find($id);
-
-    /**
      * Returns a collection of entities.
      *
      * @param integer $limit

@@ -56,36 +56,19 @@ class PhoneBookRepository implements RepositoryInterface
      *
      * @param \PhoneDirectory\Entity\PhoneBook $phoneBook
      */
-    public function delete($phoneBook)
+    public function delete($phoneBookId)
     {
-        // If the artist had an image, delete it.
-        $image = $artist->getImage();
-        if ($image) {
-            unlink('images/artists/' . $image);
-        }
-        return $this->db->delete('artists', array('artist_id' => $artist->getId()));
+        
+        return $this->db->delete('phone_details', array('id' => $phoneBookId));
     }
 
     /**
-     * Returns the total number of artists.
+     * Returns the total number of phone record rows.
      *
-     * @return integer The total number of artists.
+     * @return integer The total number of phone record rows.
      */
     public function getCount() {
-        return $this->db->fetchColumn('SELECT COUNT(artist_id) FROM artists');
-    }
-
-    /**
-     * Returns an artist matching the supplied id.
-     *
-     * @param integer $id
-     *
-     * @return \MusicBox\Entity\Artist|false An entity object if found, false otherwise.
-     */
-    public function find($id)
-    {
-        $artistData = $this->db->fetchAssoc('SELECT * FROM artists WHERE artist_id = ?', array($id));
-        return $artistData ? $this->buildArtist($artistData) : FALSE;
+        return $this->db->fetchColumn('SELECT COUNT(id) FROM phone_details');
     }
 
     /**
@@ -117,34 +100,9 @@ class PhoneBookRepository implements RepositoryInterface
         $statement = $queryBuilder->execute();
         $phoneObjs = $statement->fetchAll();
 
-        //$phoneObjArray = array();
-        /*foreach ($phoneObjs as $phoneObj) {
-            $phoneObjId = $phoneObj['id'];
-            $phoneObjArray[$phoneObjId] = $this->buildPhoneRecordArray($phoneObj);
-        }*/
+        
         return $phoneObjs;
     }
 
-    /**
-     * Instantiates an artist entity and sets its properties using db data.
-     *
-     * @param array $artistData
-     *   The array of db data.
-     *
-     * @return \MusicBox\Entity\Artist
-     */
-    protected function buildPhoneRecordArray($artistData)
-    {
-        $artist = new Artist();
-        $artist->setId($artistData['artist_id']);
-        $artist->setName($artistData['name']);
-        $artist->setShortBiography($artistData['short_biography']);
-        $artist->setBiography($artistData['biography']);
-        $artist->setSoundCloudUrl($artistData['soundcloud_url']);
-        $artist->setImage($artistData['image']);
-        $artist->setLikes($artistData['likes']);
-        $createdAt = new \DateTime('@' . $artistData['created_at']);
-        $artist->setCreatedAt($createdAt);
-        return $artist;
-    }
+   
 }
