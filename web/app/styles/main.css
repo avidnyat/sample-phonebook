@@ -97,7 +97,7 @@ form input:hover {
 }
 form input:focus {
   background-color: white;
-  width: 300px;
+  width: 270px;
   color: #53e3a6;
 }
 form textarea{
@@ -332,4 +332,100 @@ form button:hover {
   font-size: 18px;
   font-weight: bold;
   float:right;
+}
+
+
+.field {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  outline: 0;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background-color: rgba(255, 255, 255, 0.2);
+  width: 32%;
+  border-radius: 3px;
+  padding: 5px 15px;
+  margin: 10px 10px;
+  display: block;
+  text-align: left;
+  font-size: 18px;
+  color: white;
+  -webkit-transition-duration: 0.25s;
+          transition-duration: 0.25s;
+  font-weight: 300;
+}
+.bottom-border {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+}
+.date-field{
+  width: 20%;
+}
+.action-field{
+  width: 130px;
+  float:left;
+  background-color: white;
+  border: 0;
+  padding: 5px 15px;
+  color: #53e3a6;
+  border-radius: 3px;
+}
+.action-icons{
+  padding: 5px;
+   font-weight: bold;
+}
+
+.popover.left   { left: -190px !important; }
+
+.popover-content {
+  max-height: 200px;
+}
+.last-field{
+  float: left;
+  position: relative;
+}
+
+.error{
+  border-color: red;
+  box-shadow: 0px 0px 10px 3px red;
+}
+
+.float-left{
+  float: left;
+}
+
+.block-inline{
+  display: inline-block;
+}
+.success-icon{
+  color: #50a3a2;
+  font-size: 18px;
+  padding: 7px;
+  font-weight: bold;
+
+}
+.error-icon{
+  color: red;
+  font-size: 18px;
+  padding: 7px;
+  font-weight: bold;
+}
+
+.messages{
+  width: 500px;
+  position: fixed;
+  bottom: 30px;
+  min-height: 60px;
+  background-color: rgba(255, 255, 255, 1);
+  color: #50a3a2;
+  border: 1px solid #50a3a2;
+  left: -530px;
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.loading-msg{
+  font-size: 18px;
 }

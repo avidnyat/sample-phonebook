@@ -30,7 +30,7 @@ class ApiPhoneController
             return $checkMissingDataOrSendResponse;
 		
         $phoneObj = new PhoneBook();
-        if($data["id"]){
+        if(isset($data["id"])){
             $phoneObj->setId($data["id"]);
         }
         $phoneObj->setName($data['name']);

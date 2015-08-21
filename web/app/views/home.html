@@ -1,0 +1,49 @@
+<div class="row">
+	<div class="col-md-3 ">
+		<form class="form pull-left">
+			<div class="row ">
+				<div class="col-md-7 label">
+					Add New Phone Details
+				</div>
+				<div class="col-md-7">
+					<input type="text" placeholder="Enter Name">
+				</div>
+				<div class="col-md-7">
+					<input type="text" placeholder="Enter Phone Number">
+				</div>
+				<div class="col-md-7">
+					<textarea placeholder="Enter Additional Notes"></textarea>
+				</div>
+				<div class="col-md-7">
+				     <button type="submit" id="login-button" ng-click="loginBtnClick()">
+				     	<span class="glyphicon glyphicon-plus-sign action-icons" aria-hidden="true">
+				     		
+				     	</span>
+				     	Add New
+				     </button>
+				</div>
+			</div>
+		</form>	
+	</div>
+	<div class="col-md-9">
+		<div class="loading-msg" ng-show="phoneList.length == 0">Loading....</div>
+		<div class="row bottom-border" ng-repeat="phone in phoneList">
+			<div class="col-md-3 field">
+				{{phone.name}}
+			</div>
+			<div class="col-md-3 field date-field">
+				{{phone.phone_number}}
+			</div>
+			<div class="field col-md-2 date-field">
+				{{phone.date_created}}
+			</div>
+			<div class="col-md-3 field action-field ">
+				<span class="glyphicon glyphicon-edit action-icons" aria-hidden="true"></span>
+				<span class="glyphicon glyphicon-remove-circle action-icons" aria-hidden="true"></span>
+				
+					<span class="glyphicon glyphicon-list-alt action-icons	" aria-hidden="true" role="button" data-toggle="popover" data-trigger="hover" title="Additional Notes" data-content="And here's some amazing content. It's very engaging. Right?" data-placement="left"></span>
+				
+			</div>
+		</div>
+	</div>
+</div>
