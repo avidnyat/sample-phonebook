@@ -17,11 +17,13 @@ angular
     'ngSanitize',
     'angular-jquery-validate',
     'restangular',
-    'webApp.Services'
+    'webApp.Services',
+    'angularUtils.directives.dirPagination',
+    'webApp.filters'
     
   ])
-  .run(['configService', 'Restangular', function(configService , Restangular){
-      //Restangular.setBaseUrl(configService.baseUrl);
+  .run(['configService', 'Restangular', '$window', '$rootScope', 'apiService','utilsService', function(configService , Restangular, $window, $rootScope, apiService, utilsService){
+      Restangular.setBaseUrl(configService.baseUrl);
       Restangular.setDefaultHeaders({
           'Content-Type': 'application/json',
           'Access-Control-Allow-Methods': 'POST, GET, PUT, DELETE, OPTIONS',
@@ -39,6 +41,27 @@ angular
 
             }
     });
+       Restangular.addRequestInterceptor(function (element) {
+                    $(".loader").show();
+                    return element;
+                });
+                Restangular.addResponseInterceptor(function (data, operation, what, url, response, deferred) {
+                    $(".loader").hide();
+                    if(response.status == 302){
+                      $window.location.href =  "/#/"
+                    }
+                    
+                    return data;
+                });
+                Restangular.setErrorInterceptor(function (response, deferred, responseHandler) {
+                    $(".loader").hide();
+                    if(response.status == 302){
+                      $window.location.href =  "/#/"
+                    }
+                    
+                });
+                
+
   }])
 
   .config(function ($routeProvider, $jqueryValidateProvider) {
@@ -47,12 +70,38 @@ angular
       .when('/', {
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl',
-        controllerAs: 'login'
+        controllerAs: 'login',
+        resolve: {
+          data: ['$rootScope','$q', function($rootScope, $q){
+              var deferred =$q.defer();
+              $rootScope.logoutFlag = false;
+              deferred.resolve("success");
+              return deferred.promise;
+          }]
+          
+        }
       })
       .when('/home', {
         templateUrl: 'views/home.html',
         controller: 'HomeCtrl',
-        controllerAs: 'home'
+        controllerAs: 'home',
+        resolve: {
+          data: ['$rootScope','$q', 'apiService','utilsService', '$window', function($rootScope, $q, apiService, utilsService, $window){
+              var deferred =$q.defer();
+              $rootScope.logoutFlag = true;
+              $rootScope.logout = function(){
+                  apiService.logout().then(function(resp){
+                    utilsService.deleteCsrfToken();
+                    $window.location.href = "/#/";
+                  },function(resp){
+
+                  });
+                }
+              deferred.resolve("success");
+              return deferred.promise;
+          }]
+          
+        }
       })
       .otherwise({
         redirectTo: '/'
@@ -68,15 +117,15 @@ angular
      // add/update tooltips 
      for (var i = 0; i < errorList.length; i++) {
          var error = errorList[i];
-         $("#"+error.element.id).next().next().addClass("hide");
+         $("#"+error.element.id).parent().next().find(".success-icon").addClass("hide");
           $("#"+error.element.id).addClass("error");
-          $("#"+error.element.id).next().removeClass("hide");
+          $("#"+error.element.id).parent().next().find(".error-icon").removeClass("hide");
        
      }
    },
    success: function(label) {
-            $("#"+label[0].htmlFor).next().addClass("hide");
-            $("#"+label[0].htmlFor).next().next().removeClass("hide");
+            $("#"+label[0].htmlFor).parent().next().find(".error-icon").addClass("hide");
+            $("#"+label[0].htmlFor).parent().next().find(".success-icon").removeClass("hide");
         },
   });
 

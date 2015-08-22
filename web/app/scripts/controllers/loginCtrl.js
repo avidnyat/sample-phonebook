@@ -8,11 +8,12 @@
  * Controller of the webApp
  */
 angular.module('webApp')
-  .controller('LoginCtrl',[ '$scope', '$window', 'apiService', function ($scope , $window, apiService) {
+  .controller('LoginCtrl',[ '$scope', '$window', 'apiService', 'utilsService', function ($scope , $window, apiService, utilsService) {
     $scope.loginBtnClick = function(){
 
     	$window.location.href = '#/home';
     }
+    $scope.logoutFlag = false;
     $scope.eventformvalidate = {
 	    rules: {
 	        username: {
@@ -26,22 +27,15 @@ angular.module('webApp')
 	    },
 	    submitHandler: function (form) {
 	    	 var userData = {
-	    	 	username: $("#username").val(),
-	    	 	password: $("#password").val()
+	    	 	username: utilsService.escapeHtml($("#username").val()),
+	    	 	password: utilsService.escapeHtml($("#password").val())
 	    	 }
              apiService.doAuthentication(userData).then(function(resp){
-             	console.log(resp);
-             	//UtilsService.storeCsrfToken(resp.csrf);
-
+             	console.log(resp[0].csrf);
+             	utilsService.storeCsrfToken(resp[0].csrf);
              	$window.location.href = '#/home';
              },function(resp){
-             	console.log(resp);
-             	$( ".messages" ).animate({
-						left: "30px",
-
-						}, 1500 ).delay(5000).animate({
-							left: "-530px"
-						},1500);
+                utilsService.showMessage(resp, false); 	
              });          
          },
 	    validateOnInit: false

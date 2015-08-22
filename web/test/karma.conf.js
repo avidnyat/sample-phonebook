@@ -35,6 +35,7 @@ module.exports = function(config) {
       'bower_components/jquery-validation/dist/jquery.validate.js',
       'bower_components/lodash/lodash.js',
       'bower_components/restangular/dist/restangular.js',
+      'bower_components/angular-utils-pagination/dirPagination.js',
       // endbower
       "app/scripts/**/*.js",
       "test/mock/**/*.js",

@@ -5,8 +5,8 @@
     <title></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" href="styles/pace.css">
-    <script src="scripts/pace.js"></script>
+   <script src="scripts/pace.js"></script>
+    <<link rel="stylesheet" href="styles/pace.css">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
@@ -22,16 +22,20 @@
     <!--[if lte IE 8]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-
+    <div class="row">
+        <div class="col-md-2">
+            <div class="loader">Loading..</div>
+        </div>
+        <div class="col-md-6">
+            <img src="images/logo.png">
+        </div>
+        <div class="col-md-4">
+            <div ng-if="logoutFlag == true" ng-click="logout()"><a class="logout-label">Logout</a></div>
+        </div>
+    </div>
     <!-- Add your site or application content here -->
-    <div class="loader">Loading..</div>
-    <div ><a href="#/" class="logout-label">Logout</a></div>
-<div class="wrapper">
-    <div class="container">
-
-    <div ng-view=""></div>
-    </div>
-    </div>
+    
+ <div>    
 <ul class="bg-bubbles">
     <li></li>
     <li></li>
@@ -44,16 +48,27 @@
     <li></li>
     <li></li>
   </ul>
-  <div class="messages">
-    Something went wrong!!!
-  </div>
-    <div class="footer">
-      <div class="container">
-       
-      </div>
+ </div> 
+  
+<div class="wrapper">
+    <div class="container main-page">
+        <div ng-view="" class="page-phone "></div>
     </div>
+    <div class="footer">
+        Sample project for Real Strategic Inc.!!!
+    </div>
+</div>
+ 
+  <div class="messages">
+      <span class="glyphicon glyphicon-remove-circle error-message hide" aria-hidden="true"></span>
+      <span class="glyphicon glyphicon glyphicon-ok-circle success-message hide" aria-hidden="true"></span>
+      <div id="message">Somthing went wrong !!!!</div>
+  </div>
+    
 
-
+<script>
+    window.environment = "dev";
+</script>
   
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
@@ -71,6 +86,7 @@
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="../bower_components/lodash/lodash.min.js"></script>
 <script src="../bower_components/restangular/dist/restangular.min.js"></script>
+<script src="../bower_components/angular-utils-pagination/dirPagination.js"></script>
    <script src="../bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
    <script src="../bower_components/angular-touch/angular-touch.js"></script> 
 
@@ -78,7 +94,8 @@
         <script src="scripts/services/configService.js"></script>
         <script src="scripts/services/apiService.js"></script>
         <script src="scripts/services/crudService.js"></script>
-        
+        <script src="scripts/services/utilsService.js"></script>
+        <script src="scripts/filters/unescape.js"></script>
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/loginCtrl.js"></script>
         <script src="scripts/controllers/homeCtrl.js"></script>

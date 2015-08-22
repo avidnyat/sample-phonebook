@@ -1,49 +1,83 @@
 <div class="row">
-	<div class="col-md-3 ">
-		<form class="form pull-left">
+	<div class="col-md-4 pull-right search-margin">
+		<div class="input-group">
+	      <input type="text" class="form-control" placeholder="Search for..." id='search'>
+	      <span class="input-group-btn">
+	        <button class="btn btn-default" type="button" ng-click="getSearchList()">Go!</button>
+	      </span>
+	    </div>
+	</div>
+</div>
+<div class="row oveflow-auto">
+	<div class="col-md-3 border-left">
+		<form class="form pull-left" formvalidator formvalidatorconfig="eventformvalidate" formvalidatorapi="eventformvalidateapi">
 			<div class="row ">
 				<div class="col-md-7 label">
 					Add New Phone Details
 				</div>
 				<div class="col-md-7">
-					<input type="text" placeholder="Enter Name">
+					<input type="text" placeholder="Enter Name" name="name" id="name">
 				</div>
 				<div class="col-md-7">
-					<input type="text" placeholder="Enter Phone Number">
+					<input type="text" placeholder="Enter Phone Number" name="phone_number" id="phone_number">
 				</div>
 				<div class="col-md-7">
-					<textarea placeholder="Enter Additional Notes"></textarea>
+					<textarea placeholder="Enter Additional Notes" id="additional_notes"></textarea>
 				</div>
 				<div class="col-md-7">
-				     <button type="submit" id="login-button" ng-click="loginBtnClick()">
+				     <button type="submit" id="login-button" ng-show="editFlag == false">
 				     	<span class="glyphicon glyphicon-plus-sign action-icons" aria-hidden="true">
 				     		
 				     	</span>
-				     	Add New
+				     	Add
+				     </button>
+				     <button type="submit" id="edit-button" ng-show="editFlag == true" class="action-btns">
+				     	<span class="glyphicon glyphicon-edit action-icons" aria-hidden="true">
+				     		
+				     	</span>
+				     	Edit
+				     </button>
+				     <button type="submit" id="cancel-button" ng-show="editFlag == true" class="action-btns" ng-click="cancelEditing($event)">
+				     	<span class="glyphicon glyphicon glyphicon-remove-sign action-icons " aria-hidden="true">
+				     		
+				     	</span>
+				     	Cancel
 				     </button>
 				</div>
 			</div>
 		</form>	
 	</div>
-	<div class="col-md-9">
-		<div class="loading-msg" ng-show="phoneList.length == 0">Loading....</div>
-		<div class="row bottom-border" ng-repeat="phone in phoneList">
+	<div class="col-md-9 parent-div">
+		<div class="loading-msg" ng-show="lengthFlag == false">Loading....</div>
+		<div class="row" ng-show="phoneList.length == 0">
+			<div class="col-md-12">
+				No phone numbers avaliable.
+			</div>
+		</div>
+		<div class="row bottom-border animate-repeat" dir-paginate="phone in phoneList | itemsPerPage: phonesPerPage" total-items="totalItems" current-page="pagination.current" >
 			<div class="col-md-3 field">
-				{{phone.name}}
+				{{phone.name | unescapeFilter}}
 			</div>
 			<div class="col-md-3 field date-field">
-				{{phone.phone_number}}
+				{{phone.phone_number | unescapeFilter}}
 			</div>
 			<div class="field col-md-2 date-field">
 				{{phone.date_created}}
 			</div>
 			<div class="col-md-3 field action-field ">
-				<span class="glyphicon glyphicon-edit action-icons" aria-hidden="true"></span>
-				<span class="glyphicon glyphicon-remove-circle action-icons" aria-hidden="true"></span>
+				<span class="glyphicon glyphicon-edit action-icons" aria-hidden="true" ng-click="editPhoneNumber(phone)"></span>
+				<span class="glyphicon glyphicon-remove-circle action-icons" aria-hidden="true" ng-click="deletePhoneNumber(phone)"></span>
 				
-					<span class="glyphicon glyphicon-list-alt action-icons	" aria-hidden="true" role="button" data-toggle="popover" data-trigger="hover" title="Additional Notes" data-content="And here's some amazing content. It's very engaging. Right?" data-placement="left"></span>
+					<span class="glyphicon glyphicon-list-alt action-icons additional-icon	" aria-hidden="true" role="button" data-toggle="popover" data-trigger="hover" title="Additional Notes" data-content="{{ phone.additional_notes | unescapeFilter}}" data-placement="left"></span>
 				
 			</div>
 		</div>
+		
+		 
 	</div>
 </div>
+<div class="paginator">
+<div class="pull-right">
+			<dir-pagination-controls on-page-change="pageChanged(newPageNumber);$event.stopPropagation()"></dir-pagination-controls>
+		</div>
+		</div>
