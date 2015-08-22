@@ -10,6 +10,25 @@ use PhoneDirectory\Services\ResponseMessagesAndStatuses;
 
 class ApiPhoneController
 {
+    public function searchAction(Request $request, Application $app){
+        $limit = (!$request->get("limit"))? 10:$request->get("limit");
+        $offset = (!$request->get("offset"))? 0:$request->get("offset");
+
+        try{
+            $phoneObjs = $app['repository.phone_details']->search($limit, $offset, "", $request->get("search"));
+            $phoneObjsCount = $app['repository.phone_details']->getSearchCount($limit, $offset, "", $request->get("search"));    
+        }catch(\Exception $e){
+            return UtilsService::createAndSendResponse($app, 
+                        array(
+                            ResponseMessagesAndStatuses::FATAL_ERROR_STATUS_CODE,
+                            $e->getMessage()
+                        )
+                       );
+        }
+        
+        $responseArray = array("phoneObjs"=>$phoneObjs,"count"=>$phoneObjsCount);
+        return UtilsService::createAndSendResponse($app, $responseArray, true);
+    }
     public function addUpdateAction(Request $request, Application $app){
         $data =  UtilsService::checkJsonStructure($request);
     	if (($data === -1) || ($data === NULL)) {

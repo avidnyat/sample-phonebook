@@ -10,15 +10,17 @@ use PhoneDirectory\Services\ResponseMessagesAndStatuses;
 
 class ApiUserController
 {
-    public function optionAction(Request $request, Application $app){
+    
+    public function logoutAction(Request $request, Application $app){
+        $app['session']->set('csrf', "");
         return UtilsService::createAndSendResponse($app, 
                         array(
                             ResponseMessagesAndStatuses::SUCCESS_STATUS_CODE,
-                            ResponseMessagesAndStatuses::JSON_FORMAT_WRONG_MESSAGE
-                        )
+                            ResponseMessagesAndStatuses::SUCCESS_OPERATION_MESSAGE
+                        ),
+                        true
                        );
     }
-
     public function loginAction(Request $request, Application $app){
         $data =  UtilsService::checkJsonStructure($request);
     	if (($data === -1) || ($data === NULL)) {

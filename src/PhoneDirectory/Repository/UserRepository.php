@@ -29,9 +29,9 @@ class UserRepository
     {
         $userData = $this->db->fetchAssoc('SELECT * FROM users WHERE username = ? and password = ?', array($responseData["username"], sha1($responseData["password"])));
         if($userData){
-            $_session["username"] = $responseData['username'];
+            //$_session["username"] = $responseData['username'];
             $csrf = uniqid();
-            $app['session']->set('user', $csrf);
+            $app['session']->set('csrf', $csrf);
             return array("csrf"=>$csrf);
         }else{
             return false;

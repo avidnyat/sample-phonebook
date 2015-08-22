@@ -35,7 +35,7 @@ class PhoneBook
     /**
      * PhoneBook Created time
      *
-     * @var datetime
+     * @var string
      */
     protected $dateCreated;
     

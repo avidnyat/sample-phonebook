@@ -14,7 +14,7 @@ class UtilsService{
 	public function createAndSendResponse($app, $responseArray, $successflag = false){
 		if($successflag){
 			$app['monolog']->addInfo(ResponseMessagesAndStatuses::SUCCESS_STATUS_CODE."==>".ResponseMessagesAndStatuses::SUCCESS_OPERATION_MESSAGE);
-			return $app->json($responseArray, ResponseMessagesAndStatuses::SUCCESS_STATUS_CODE);
+			return $app->json(array($responseArray), ResponseMessagesAndStatuses::SUCCESS_STATUS_CODE);
 		}
 		if($app['debug'] != true){
 			$responseArray = array(
@@ -23,7 +23,7 @@ class UtilsService{
 				);
 		}
 		$app['monolog']->addInfo($responseArray[0]."==>".$responseArray[1]);
-		return $app->json(array($responseArray[0], $responseArray[1]), $responseArray[0]);
+		return $app->json(array("code"=> $responseArray[0], "message"=>$responseArray[1]), $responseArray[0]);
 	}
 	public function checkRequestParamsMissing($data, $requestArray, $app){
 		$paramArray = array();

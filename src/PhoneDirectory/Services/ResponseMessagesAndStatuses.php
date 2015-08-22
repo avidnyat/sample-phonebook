@@ -22,6 +22,7 @@ class ResponseMessagesAndStatuses{
 	const DELETED_ROW_MESSAGE = 'Deleted record successfully';
 	const SUCCESS_OPERATION_MESSAGE = 'Successfull operation';
 	const INVALID_CREDENTIALS = 'Invalid credentails';
+	const REQUEST_NOT_ALLOWED = 'Request not allowed';
 
 
 }

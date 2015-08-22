@@ -48,14 +48,14 @@ $app->register(new Silex\Provider\MonologServiceProvider(), array(
 $app->before(function (Request $request, Application $app) {
     $request->getSession()->start();
     if(($request->getRequestUri()!="/api/user/login") && ($request->getRequestUri()!="/")){
-        if(!$app['session']->get('user') || $app['session']->get('user') != $request->get("csrf")){
+        /*if(!$app['session']->get('csrf') || $app['session']->get('csrf') != $request->get("csrf")){
             return UtilsService::createAndSendResponse($app, 
                         array(
-                            ResponseMessagesAndStatuses::MISSING_PARAMS_STATUS_CODE,
-                            ResponseMessagesAndStatuses::INVALID_CREDENTIALS
+                            ResponseMessagesAndStatuses::REDIRECT_STATUS_CODE,
+                            ResponseMessagesAndStatuses::REQUEST_NOT_ALLOWED
                         )
                        );
-        }
+        }*/
     }
 
 });
@@ -63,7 +63,7 @@ $app->before(function (Request $request, Application $app) {
 $app->error(function (\Exception $e, $code) use ($app) {
     
 
-    $response = json_encode(array($code,$e->getMessage()));
+    $response = json_encode(array("code"=>$code,"message"=>$e->getMessage()));
     $app['monolog']->addError($code."==".$e->getMessage());
     return new Response($response, $code);
 });

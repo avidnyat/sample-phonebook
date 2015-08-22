@@ -33,7 +33,7 @@ class PhoneBookRepository implements RepositoryInterface
             'additional_notes' => $phoneBook->getAdditionalNotes(),
         );
         if(!$phoneBook->getId()){
-            $phoneBookObj['date_created'] = date("Y-m-d H:i:s");
+            $phoneBookObj['date_created'] = date("d M Y");
             $phoneBookObj['date_updated'] = date("Y-m-d H:i:s");   
 
 
@@ -102,6 +102,40 @@ class PhoneBookRepository implements RepositoryInterface
 
         
         return $phoneObjs;
+    }
+    public function search($limit, $offset = 0 , $orderBy = array(), $searchString){
+        if (!$orderBy) {
+            $orderBy = array('name' => 'ASC');
+        }
+
+        $queryBuilder = $this->db->createQueryBuilder();
+        $queryBuilder
+            ->select('a.*')
+            ->from('phone_details', 'a')
+            ->where('(MATCH (a.name, a.phone_number, a.additional_notes, a.date_created) AGAINST ("'.$searchString.'"))')
+            ->setMaxResults($limit)
+            ->setFirstResult($offset)
+            ->orderBy('a.' . key($orderBy), current($orderBy));
+        $statement = $queryBuilder->execute();
+        $phoneObjs = $statement->fetchAll();
+
+        
+        return $phoneObjs;
+    }
+    public function getSearchCount($limit, $offset = 0 , $orderBy = array(), $searchString) {
+        if (isset($orderBy)) {
+            $orderBy = array('name' => 'ASC');
+        }
+
+        $queryBuilder = $this->db->createQueryBuilder();
+        $queryBuilder
+            ->select('count(a.id) as count')
+            ->from('phone_details', 'a')
+            ->where('(MATCH (a.name, a.phone_number, a.additional_notes, a.date_created) AGAINST ("'.$searchString.'"))');
+            
+        $statement = $queryBuilder->execute();
+        $phoneCount = $statement->fetchAll();
+        return $phoneCount[0]["count"];
     }
 
    
