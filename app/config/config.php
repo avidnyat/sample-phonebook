@@ -1,6 +1,6 @@
 <?php
 
-// Doctrine (db)
+// Doctrine Configuration (db)
 $app['db.options'] = array(
     'driver'   => 'pdo_mysql',
     'host'     => '127.0.0.1',

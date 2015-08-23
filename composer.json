@@ -7,13 +7,19 @@
         "symfony/locale": "~2.3",
         "symfony/twig-bridge": "~2.3",
         "monolog/monolog": "^1.16"
+        
     },
     "require-dev": {
-        "symfony/browser-kit"   : "~2.3",
-        "symfony/css-selector"  : "~2.3",
+        "symfony/browser-kit"   : "^2.7",
+        "symfony/css-selector"  : "^2.7",
         "symfony/dom-crawler"   : "~2.3"
+
     },
     "autoload": {
         "psr-0": {"PhoneDirectory": "src/"}
+    },
+    "config": {
+        "bin-dir": "./bin/"
     }
+
 }

@@ -117,7 +117,7 @@ angular
      // add/update tooltips 
      for (var i = 0; i < errorList.length; i++) {
          var error = errorList[i];
-         $("#"+error.element.id).parent().next().find(".success-icon").addClass("hide");
+         $("#"+error.element.id).parent().next().find(".success-message").addClass("hide");
           $("#"+error.element.id).addClass("error");
           $("#"+error.element.id).parent().next().find(".error-icon").removeClass("hide");
        
@@ -125,7 +125,7 @@ angular
    },
    success: function(label) {
             $("#"+label[0].htmlFor).parent().next().find(".error-icon").addClass("hide");
-            $("#"+label[0].htmlFor).parent().next().find(".success-icon").removeClass("hide");
+            $("#"+label[0].htmlFor).parent().next().find(".success-message").removeClass("hide");
         },
   });
 

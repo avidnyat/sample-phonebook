@@ -3,7 +3,7 @@
 		<div class="input-group">
 	      <input type="text" class="form-control" placeholder="Search for..." id='search'>
 	      <span class="input-group-btn">
-	        <button class="btn btn-default" type="button" ng-click="getSearchList()">Go!</button>
+	        <button class="btn btn-default" type="button" ng-click="getSearchList()" id="search_btn">Go!</button>
 	      </span>
 	    </div>
 	</div>
@@ -66,7 +66,7 @@
 			</div>
 			<div class="col-md-3 field action-field ">
 				<span class="glyphicon glyphicon-edit action-icons" aria-hidden="true" ng-click="editPhoneNumber(phone)"></span>
-				<span class="glyphicon glyphicon-remove-circle action-icons" aria-hidden="true" ng-click="deletePhoneNumber(phone)"></span>
+				<span class="glyphicon glyphicon-remove-circle action-icons error-home-icon" aria-hidden="true" data-toggle="modal" data-target="#myModal" ng-click="showModal(phone)"></span>
 				
 					<span class="glyphicon glyphicon-list-alt action-icons additional-icon	" aria-hidden="true" role="button" data-toggle="popover" data-trigger="hover" title="Additional Notes" data-content="{{ phone.additional_notes | unescapeFilter}}" data-placement="left"></span>
 				
@@ -81,3 +81,20 @@
 			<dir-pagination-controls on-page-change="pageChanged(newPageNumber);$event.stopPropagation()"></dir-pagination-controls>
 		</div>
 		</div>
+<div class="modal fade" id="deleteModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        <p>One fine body&hellip;</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>

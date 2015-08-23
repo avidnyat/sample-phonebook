@@ -1,5 +1,7 @@
-
 <?php 
+
+// app file of silex !!!
+
 use Symfony\Component\Debug\ExceptionHandler;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -7,17 +9,20 @@ use PhoneDirectory\Services\UtilsService;
 use PhoneDirectory\Services\ResponseMessagesAndStatuses;
 use Silex\Application;
 ExceptionHandler::register();
-//header('Access-Control-Allow-Origin: *');
-//header('Access-Control-Allow-Headers: Accept, X-Requested-With');
-//header('HTTP/1.1 200 OK', true);
-//header('Request-method', 'POST');
-// Register repositories.
+$app = new Silex\Application();
+$app['debug'] = true;
+
+// Registering repo for phone_details db table
 $app['repository.phone_details'] = $app->share(function ($app) {
     return new PhoneDirectory\Repository\PhoneBookRepository($app['db']);
 });
+
+// Registering repo for user db table
 $app['repository.user'] = $app->share(function ($app) {
     return new PhoneDirectory\Repository\UserRepository($app['db']);
 });
+
+// Registering different providers required
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     'db.options' => array(
         'driver'   => 'pdo_mysql',
@@ -44,18 +49,18 @@ $app->register(new Silex\Provider\MonologServiceProvider(), array(
     'monolog.logfile' => __DIR__.'/development.log',
 ));
 
-
+// Pre execute condition before any controller of API
 $app->before(function (Request $request, Application $app) {
     $request->getSession()->start();
     if(($request->getRequestUri()!="/api/user/login") && ($request->getRequestUri()!="/")){
-        /*if(!$app['session']->get('csrf') || $app['session']->get('csrf') != $request->get("csrf")){
+        if(!$app['session']->get('csrf') || $app['session']->get('csrf') != $request->get("csrf")){
             return UtilsService::createAndSendResponse($app, 
                         array(
                             ResponseMessagesAndStatuses::REDIRECT_STATUS_CODE,
                             ResponseMessagesAndStatuses::REQUEST_NOT_ALLOWED
                         )
                        );
-        }*/
+        }
     }
 
 });
@@ -67,3 +72,5 @@ $app->error(function (\Exception $e, $code) use ($app) {
     $app['monolog']->addError($code."==".$e->getMessage());
     return new Response($response, $code);
 });
+
+return $app;

@@ -8,9 +8,28 @@
  * Controller of the webApp
  */
 angular.module('webApp')
-  .controller('HomeCtrl',['$scope', 'apiService', 'utilsService',  function ($scope, apiService, utilsService) {
+  .controller('HomeCtrl',['$rootScope', '$scope', 'apiService', 'utilsService',  function ($rootScope, $scope, apiService, utilsService) {
   	$scope.lengthFlag = false;
   	$scope.searchText = "";
+    $scope.tempDeletePhoneObj = {};
+    $scope.showModal = function(phoneObj){
+      $scope.tempDeletePhoneObj = phoneObj;
+      $('#deleteModal').modal('show');    
+    }
+    $(document).mouseup(function (e) {
+            var container = $(".modal");
+            if (!container.is(e.target) // if the target of the click isn't the container...
+                && container.has(e.target).length === 0) // ... nor a descendant of the container
+            {
+                $('#deleteModal').modal('hide');    
+            }
+        });
+    $('#search').keypress(function(event){
+      var keycode = (event.keyCode ? event.keyCode : event.which);
+      if(keycode == '13'){
+        $("#search_btn").trigger("click");
+      }
+    });
   	$scope.getSearchList = function(){
   		if($("#search").val() == ""){
   			getResultsPage(1);
@@ -90,10 +109,13 @@ angular.module('webApp')
 	$(".parent-div").on("mouseover", ".additional-icon", function(){
 		$(this).popover("show");
 	});
-  	$scope.deletePhoneNumber = function(phoneObj){
+  	$rootScope.deletePhoneNumber = function(){
+      $("#deleteModal").modal("hide");
+      var phoneObj = $scope.tempDeletePhoneObj;
   		apiService.deletePhoneNumber(phoneObj).then(function(resp){
 	             	utilsService.showMessage(resp, true);
 	             	getResultsPage($scope.pagination.current);	
+                $scope.tempDeletePhoneObj = {};
 	             },function(resp){
 	             	utilsService.showMessage(resp, false);
 	             }); 
@@ -127,6 +149,7 @@ angular.module('webApp')
 	             	$("#phone_number").val("");
 	             	$("#additional_notes").val("");
 	             	$scope.editFlag = false;	
+                getResultsPage($scope.pagination.current);  
 	             },function(resp){
 	             	utilsService.showMessage(resp, false);
 	             }); 
@@ -141,6 +164,7 @@ angular.module('webApp')
 	             	$("#name").val("");
 	             	$("#phone_number").val("");
 	             	$("#additional_notes").val("");
+                getResultsPage($scope.pagination.current);  
 	             },function(resp){
 	             	utilsService.showMessage(resp, false);
 	             }); 
