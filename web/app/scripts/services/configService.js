@@ -31,7 +31,7 @@ angular.module('webApp.Services',[])
 	   			user_logout: '/user/logout',
 	   			phone_search: '/phone/search'
 	   		}
-	   		var baseUrl = "http://localhost/api"
+	   		var baseUrl = "/api"
   	    }
    		
    		
