@@ -23,6 +23,9 @@ import db using phone_book.sql
 change db configuration in file app/config/config.php
 
 // frontend side installation
+
+Pls note without below command also application will work as I have deployed js files in php project setup
+
 go to web folder
 execute command: grunt build 
 
