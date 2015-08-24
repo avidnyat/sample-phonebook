@@ -30,6 +30,8 @@ go to your url : http://localhost
 
 And that's it Application should load up.
 
+Please use username : admin and password: admin to access application
+
 Thanks
 Developer: Avidnyat Chiddarwar
 
